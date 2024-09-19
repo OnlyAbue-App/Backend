@@ -1,0 +1,21 @@
+const admin = require('firebase-admin');
+const serviceAccount = require('./config/serviceAccountKey.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://<TU-PROYECTO>.firebaseio.com'
+});
+
+const db = admin.firestore();
+
+// Ejemplo: Añadir un usuario
+const addUser = async () => {
+  const docRef = db.collection('users').doc('12345');
+  await docRef.set({
+    name: 'John Doe',
+    email: 'johndoe@example.com'
+  });
+  console.log('Usuario añadido');
+};
+
+addUser();
