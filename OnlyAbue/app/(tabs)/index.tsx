@@ -7,6 +7,12 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 import initializeCollections from '@/services/initFirestore';
+import { agregarMedicamento, 
+        obtenerMedicamentos, 
+        obtenerMedicamentosPorUsuario, 
+        actualizarMedicamento, 
+        eliminarMedicamento } from '@/services/firestoreService';
+
 
 export default function HomeScreen() {
 
@@ -20,6 +26,41 @@ export default function HomeScreen() {
     };
 
     init();
+  }, []);
+
+  useEffect(() => {
+    const agregarMedicamentoEjemplo = async () => {
+      try {
+        await agregarMedicamento({
+          nombre: 'Ibuprofeno',
+          dosis: '200mg',
+          usuarioId: 'usuario123',
+          creadoEn: new Date(),
+        });
+        console.log('Medicamento agregado correctamente');
+      } catch (error) {
+        console.error('Error al agregar medicamento:', error);
+      }
+    };
+    const obtenerDatos = async () => {
+      const medicamentos = await obtenerMedicamentos();
+      console.log('Medicamentos:', medicamentos);
+    };
+
+    const medicamentosPorUsuario = async () => {
+      const medicamentosUsuario = await obtenerMedicamentosPorUsuario('usuario123');
+      console.log('usuario123', medicamentosUsuario);
+    }
+    const actualizarMed = async () => {
+      actualizarMedicamento('PSDBxeQM9HdwtEjbdElz', { dosis: '1000mg' });
+    }
+
+    const eliminarMed = async () => {
+      eliminarMedicamento('OvmzEtlRhPg0lIZ66Fya');
+    }
+
+    eliminarMed();
+
   }, []);
 
   return (
